@@ -1,18 +1,19 @@
 {
-  "name": "kk",
+  "name": "madridjs-2024",
+  "type": "module",
+  "private": true,
   "version": "1.0.0",
   "scripts": {
-    "test": "jest --watchAll scpna.test.ts",
-    "test:fp-ts": "jest fp-ts.test.ts"
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.15.6",
-    "@babel/preset-typescript": "^7.15.0",
-    "@types/jest": "^27.0.1",
-    "jest": "^27.2.0"
+    "c8": "^9.1.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.0"
   },
   "dependencies": {
     "fp-ts": "^2.11.2",
-    "isomorphic-fetch": "^3.0.0"
+    "node-fetch": "^3.3.2"
   }
 }

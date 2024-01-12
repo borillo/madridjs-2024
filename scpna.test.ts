@@ -1,4 +1,6 @@
-import "isomorphic-fetch";
+import { describe, expect, test } from "vitest";
+
+import fetch from "node-fetch";
 
 import { pipe } from "fp-ts/function";
 
@@ -339,10 +341,23 @@ describe("💡 Manejo de excepciones", () => {
 
 describe("💡 Decoración", () => {
   describe("🚀 Ejemplo de aplicación: Cacheo", () => {
+    const sessionStorage = {
+      items: {} as { [key: string]: string },
+      getItem: function (key: string): string {
+        return this.items[key];
+      },
+      setItem: function (key: string, value: string) {
+        this.items[key] = value;
+      },
+      removeItem: function (key: string) {
+        delete this.items[key];
+      },
+    };
+
     async function retrieveCredits(): Promise<Credits> {
       return TE.tryCatch(async () => {
         const response = await fetch("https://swapi.dev/api/people/");
-        const { results } = await response.json();
+        const results = (await response.json()) as Actor[];
         return results;
       }, E.toError)();
     }
@@ -352,12 +367,12 @@ describe("💡 Decoración", () => {
     }
 
     async function withCache<T>(key: string, fn: () => Promise<T>): Promise<T> {
-      const existentValue = window.sessionStorage.getItem(key);
+      const existentValue = sessionStorage.getItem(key);
       if (existentValue) return Promise.resolve(JSON.parse(existentValue));
 
       const data = await fn.call(null);
 
-      window.sessionStorage.setItem(key, JSON.stringify(data, null, 4));
+      sessionStorage.setItem(key, JSON.stringify(data, null, 4));
 
       return data;
     }

@@ -1,3 +1,5 @@
+import { describe, expect, test } from "vitest";
+
 import { pipe, flow } from "fp-ts/function";
 
 import * as A from "fp-ts/Array";
