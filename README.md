@@ -1,24 +1,22 @@
 # Happy patterns en TypeScript
 
+## Introducción
+
 - 🧠 Los patrones aportan al equipo:
   - 💡 Un lenguaje común: Code reviews, pair programming o MOB programming.
   - 💡 Una manera de alcanzar consensos.
 - 🧠 Evolución del código hacia estructura conocidas: Refactoring.
 - 🧠 Happy Patterns:
-  - Patrones con un alto impacto a nivel de refactoring.
+  - 💡 Patrones con un alto impacto a nivel de refactoring.
+- 🧠 Estructura de la solución: Hexagonal + DDD (estilo funcional).
 
-## ✅ Decorator
+## Happy Patterns
 
-- 💩 Separación de responsabilidades: audit, logging, caching.
-- 💡 Permiten componerse.
-- 💡 Métodos factoría para generar las decoraciones.
-- 💡 Configurable en test para evitar por ejemplo el caching.
-
-## ✅ State
-
-- 💩 TBD.
-- 💡 TBD.
-- 🧠 TBD.
+- 🚀 [Value Object](tests/valueobject.test.ts)
+- 🚀 [Encapsulate Collection](tests/encapsulate-collection.test.ts)
+- 🚀 [Decorator](tests/decorator.test.ts)
+- 🚀 [State](tests/state.test.ts)
+- 🚀 [Option](tests/option.test.ts)
 
 ## ✅ Option
 
