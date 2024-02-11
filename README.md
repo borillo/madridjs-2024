@@ -1,42 +1,13 @@
 # Happy patterns en TypeScript
 
-## ✅ Intro
+- 🧠 Los patrones aportan al equipo:
+  - 💡 Un lenguaje común: Code reviews, pair programming o MOB programming.
+  - 💡 Una manera de alcanzar consensos.
+- 🧠 Evolución del código hacia estructura conocidas: Refactoring.
+- 🧠 Happy Patterns:
+  - Patrones con un alto impacto a nivel de refactoring.
 
-- 💡 Refactoring con equipos: MOB programming.
-- 🧠 Estudiando programación funcional.
-
-**References:**
-
-- 🎥 [Programación funcional: Próximamente en un lenguaje de programación cerca de usted](https://www.youtube.com/watch?v=y0GwxCDTJvA)
-  
-## ✅ Estructura del proyecto
-
-![Hexagonal](./images/hexagonal.png)
-
-- 💡 Estructura técnica vs estructura funcional:
-  - Un primer nivel por cada dominio.
-  - Misma abstracción en varios dominios.
-- 🧠 Domain-Driven Design:
-  - **Strategic Design**: Ubiquitous Language, Context Mapping, Event Storming, etc.
-  - **Tactical Design**: OOP + Aggregates.
-
-**References:**
-
-- 🎥 [Functional architecture - The pits of success](https://www.youtube.com/watch?v=US8QG9I1XW0)
-- 📖 [Domain modeling made functional by Scott Wlaschin](https://www.goodreads.com/book/show/39021550-domain-modeling-made-functional)
-
-## ✅ Foco en los “value objects”
-
-- 🧠 Tell, don't ask. Ley de Demeter.
-- 💩 Código duplicado + Falta de niveles de abstracción.
-- 💡 Previo al refactoring de diseño. Primero semántica y naming.
-- 💡 Foco atractor de código.
-- 💩 utils & helpers.
-- 🧠 Bola extra. Encapsulación de colecciones:
-  - 💩 Código duplicado.
-  - 💩 Acoplamiento.
-
-## ✅ Decoración
+## ✅ Decorator
 
 - 💩 Separación de responsabilidades: audit, logging, caching.
 - 💡 Permiten componerse.
@@ -49,20 +20,29 @@
 - 💡 TBD.
 - 🧠 TBD.
 
-## ✅ Manejo de la opcionalidad
+## ✅ Option
 
-- 💡 Computación que puede fallar.
+Problema que intentamos resolver:
+
+- 🧠 Los patrones funcionales y su impacto en el código.
+- 🧠 Computación que puede fallar (menjo de la opcionalidad).
 - 💩 Programación defensiva (`Optional chaining` or `Nullish coalescing operator`).
 - 💡 NullObject pattern.
 - 🧠 Functional programming: `fp-ts`.
-- 🧠 Bola extra. Manejo de excepciones:
-  - 💩 Paso de mensajes.
-  - 💩 Ruptura del flujo + exception handler global.
-  - 💩 Falta de contexto.
-  - 💩 No accionables. Excepciones ignoradas/silenciadas.
-  - 💡 Lo convertimos en un `value`.
-  - 🧠 Functional programming: `fp-ts`.
+
+Que nos aporta `Option`:
+
+- 💡 Valores inexistentes.
+- 💩 Programación defensiva (`Optional chaining` or `Nullish coalescing operator`).
+- 💡 NullObject pattern.
+- 🧠 Functional programming.
+
+# Referencias
+
+- 🎥 [Programación funcional: Próximamente en un lenguaje de programación cerca de usted](https://www.youtube.com/watch?v=y0GwxCDTJvA)
+- 🎥 [Functional architecture - The pits of success](https://www.youtube.com/watch?v=US8QG9I1XW0)
+- 📖 [Domain modeling made functional by Scott Wlaschin](https://www.goodreads.com/book/show/39021550-domain-modeling-made-functional)
 
 # ❔ Q&A
 
-> Ricardo Borillo Domenech | <borillo@gmail.com> |  [@borillo](https://twitter.com/borillo)
+> Ricardo Borillo Domenech | <borillo@gmail.com> | [@borillo](https://twitter.com/borillo)
