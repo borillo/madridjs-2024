@@ -12,7 +12,7 @@
 
 ## Happy Patterns
 
-- 🚀 [Value Object](tests/valueobject.test.ts)
+- 🚀 [Value Object](tests/value-object.test.ts)
 - 🚀 [Encapsulate Collection](tests/encapsulate-collection.test.ts)
 - 🚀 [Decorator](tests/decorator.test.ts)
 - 🚀 [State](tests/state.test.ts)
