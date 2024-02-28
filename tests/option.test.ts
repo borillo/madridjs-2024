@@ -55,7 +55,10 @@ describe("💡 Manejo de la opcionalidad", () => {
    */
 
   describe("Manejo de la opcionalidad con `Option`", () => {
-    // ℹ️ type Option<A> = None | Some<A>
+    /**
+     * 🧠 type Option<A> = None | Some<A>
+     * 🧠 Option = Caja a la que puedo aplicar operaciones tenga o no valor dentro.
+     */
 
     function extractFullName(
       accountManager: O.Option<T.AccountManager>

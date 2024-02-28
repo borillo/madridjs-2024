@@ -5,6 +5,11 @@ import { User } from "../src/exchange/domain/user";
 
 const URL = "https://reqres.in";
 
+/**
+ * 💩 Múltiples condicionales para controlar el estado.
+ * 🧠 Máquina de estados!! https://miro.com/app/board/uXjVNorFYvc=/?share_link_id=980258082344
+ */
+
 describe.only("State", () => {
   let client: UsersApiClient.Api;
 

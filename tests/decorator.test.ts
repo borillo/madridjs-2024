@@ -5,7 +5,7 @@ import * as SavingsRepository from "../src/exchange/infrastructure/savings-repos
 
 /**
  * 💡 Separación de responsabilidades: logging, caching, etc.
- * 💡 Permiten componerse.
+ * 💡 Capacidad de composición.
  * 💡 Métodos factoría para generar las decoraciones.
  * 💡 Configurable en test para evitar por ejemplo el caching.
  */
