@@ -1,7 +1,5 @@
 export type State = "IDLE" | "LOADING" | "ERROR" | "SUCCESS";
 
-// https://miro.com/app/board/uXjVNorFYvc=/
-
 export const stateMachine = {
   IDLE: {
     retrieve: (): State => "LOADING",
