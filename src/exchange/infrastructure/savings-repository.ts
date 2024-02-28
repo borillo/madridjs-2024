@@ -1,4 +1,5 @@
 import {
+  AccountManager,
   SavingsRepository,
   SavingsRepositoryFactory,
   Transactions,
@@ -16,6 +17,13 @@ export function withSavingsDatabase(): SavingsRepository {
         { reason: "DB transaction", value: { amount: 100, currency: "EUR" } },
       ];
     },
+
+    retrieveAccountManager: () => {
+      return {
+        code: 934589749,
+        fullName: "Ricardo Borillo",
+      };
+    },
   };
 }
 
@@ -24,11 +32,16 @@ export function withSavingsLogging(
 ): SavingsRepository {
   return {
     retrieveTransactions: () => {
-      console.log("Started repositority");
-
+      console.log("Started retrieveTransactions");
       const result = repository.retrieveTransactions();
+      console.log("Ended retrieveTransactions");
 
-      console.log("Ended  repositority");
+      return result;
+    },
+    retrieveAccountManager: () => {
+      console.log("Started retrieveAccountManager");
+      const result = repository.retrieveAccountManager();
+      console.log("Ended retrieveAccountManager");
 
       return result;
     },
@@ -38,14 +51,21 @@ export function withSavingsLogging(
 export function withSavingsCache(
   repository: SavingsRepository
 ): SavingsRepository {
-  let cachedData: Transactions = [];
+  let cachedTransactions: Transactions = [];
+  let cachedAccountManager: AccountManager | null;
 
   return {
     retrieveTransactions: () => {
-      if (cachedData.length === 0)
-        cachedData = repository.retrieveTransactions();
+      if (cachedTransactions.length === 0)
+        cachedTransactions = repository.retrieveTransactions();
 
-      return cachedData;
+      return cachedTransactions;
+    },
+    retrieveAccountManager: () => {
+      if (typeof cachedAccountManager === null)
+        cachedAccountManager = repository.retrieveAccountManager();
+
+      return cachedAccountManager;
     },
   };
 }

@@ -1,123 +1,50 @@
-import { expect, test } from "vitest";
+import { beforeEach, describe, expect, test } from "vitest";
 
-interface State {
-  pause: () => void;
-  play: () => void;
-  next: () => void;
-  previous: () => void;
-}
+import * as UsersApiClient from "../src/exchange/infrastructure/users-repository";
+import { User } from "../src/exchange/domain/user";
 
-class PausedState implements State {
-  private player: AudioPlayer;
+const URL = "https://reqres.in";
 
-  constructor(player: AudioPlayer) {
-    this.player = player;
-  }
+describe.only("State", () => {
+  let client: UsersApiClient.Api;
 
-  pause() {}
+  beforeEach(() => {
+    client = UsersApiClient.create();
+  });
 
-  play() {
-    this.player.changeState(new PlayingState(this.player));
-  }
+  test("😃 El estado inicial debe ser IDLE", () => {
+    expect(client.currentState()).toEqual("IDLE");
+  });
 
-  next() {
-    this.player.changeState(new PlayingState(this.player));
-  }
+  test("😃 Recuperar información con éxito nos deja en estado SUCCESS", async () => {
+    await client.retrieve<User[]>({
+      url: `${URL}/api/users`,
+    });
 
-  previous() {
-    this.player.changeState(new PlayingState(this.player));
-  }
-}
+    expect(client.currentState()).toEqual("SUCCESS");
+  });
 
-class ReadyState implements State {
-  private player: AudioPlayer;
+  test("😃 Un error al recuperar nos deja en estado ERROR", async () => {
+    expect(() =>
+      client.retrieve<User[]>({
+        url: `${URL}/fail`,
+      })
+    ).rejects.toThrowError();
 
-  constructor(player: AudioPlayer) {
-    this.player = player;
-  }
+    expect(client.currentState()).toEqual("ERROR");
+  });
 
-  pause() {}
+  test("😃 Podemos resetear el estado para quedarnos en el punto inicial", async () => {
+    try {
+      await client.retrieve<User[]>({
+        url: `${URL}/fail`,
+      });
+    } catch (e) {}
 
-  play() {
-    this.player.changeState(new PlayingState(this.player));
-  }
+    expect(client.currentState()).toEqual("ERROR");
 
-  next() {
-    this.player.changeState(new PlayingState(this.player));
-  }
+    client.reset();
 
-  previous() {
-    this.player.changeState(new PlayingState(this.player));
-  }
-}
-
-class PlayingState implements State {
-  private player: AudioPlayer;
-
-  constructor(player: AudioPlayer) {
-    this.player = player;
-  }
-
-  pause() {
-    this.player.changeState(new PausedState(this.player));
-  }
-
-  play() {}
-
-  next() {}
-
-  previous() {}
-}
-
-export default class AudioPlayer {
-  private state: State;
-
-  constructor() {
-    this.state = new ReadyState(this);
-  }
-
-  changeState(state: State) {
-    this.state = state;
-  }
-
-  isPlaying() {
-    return this.state instanceof PlayingState;
-  }
-
-  pause() {
-    this.state.pause();
-  }
-
-  play() {
-    this.state.play();
-  }
-
-  next() {
-    this.state.next();
-  }
-
-  previous() {
-    this.state.previous();
-  }
-}
-
-test("when created player should be stopped", () => {
-  const player = new AudioPlayer();
-
-  expect(player.isPlaying()).toEqual(false);
-});
-
-test("when play button is pressed player should play", () => {
-  const player = new AudioPlayer();
-  player.play();
-
-  expect(player.isPlaying()).toEqual(true);
-});
-
-test("when pause button is pressed player should stop", () => {
-  const player = new AudioPlayer();
-  player.play();
-  player.pause();
-
-  expect(player.isPlaying()).toEqual(false);
+    expect(client.currentState()).toEqual("IDLE");
+  });
 });

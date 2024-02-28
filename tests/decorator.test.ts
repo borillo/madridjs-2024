@@ -5,13 +5,13 @@ import * as SavingsRepository from "../src/exchange/infrastructure/savings-repos
 
 /**
  * 💡 Separación de responsabilidades: logging, caching, etc.
- * 💡 Métodos factoría para generar las decoraciones.
  * 💡 Permiten componerse.
+ * 💡 Métodos factoría para generar las decoraciones.
  * 💡 Configurable en test para evitar por ejemplo el caching.
  */
 
 describe("Decorator", () => {
-  test("should retrieve the cast", () => {
+  test("😃 Implementación de base de datos directamente", () => {
     const repository: T.SavingsRepository =
       SavingsRepository.withSavingsDatabase();
 
@@ -21,7 +21,7 @@ describe("Decorator", () => {
     expect(() => repository.retrieveTransactions()).toThrowError("🧨");
   });
 
-  test("🚀 should retrieve the cast (cache applied)", () => {
+  test("😃 Decoración del repositorio de base de datos para cacheo", () => {
     const repository: T.SavingsRepository =
       SavingsRepository.savingsRepositoryFactory().buildCacheableRepository();
 
@@ -31,7 +31,7 @@ describe("Decorator", () => {
     repository.retrieveTransactions(); // 🤞 Está en cache y no debe fallar
   });
 
-  test("🚀 should retrieve the cast (logging applied)", () => {
+  test("😃 Decoración del repositorio de base de datos para logging", () => {
     const repository: T.SavingsRepository =
       SavingsRepository.savingsRepositoryFactory().buildLoggableRepository();
 

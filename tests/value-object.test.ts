@@ -50,13 +50,10 @@ describe("Value Objects", () => {
      * 💡 Foco atractor de código.
      */
 
-    const result = CurrencyAdder.add([
-      {
-        amount: 10,
-        currency: "EUR",
-      },
-      { amount: 20, currency: "EUR" },
-    ]);
+    const result = CurrencyAdder.add(
+      Money.from(10, "EUR"),
+      Money.from(20, "EUR")
+    );
 
     /**
      * 💡 Mejora de la semántica y reutilización de los tipos definidos.

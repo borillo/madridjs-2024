@@ -18,23 +18,6 @@
 - 🚀 [State](tests/state.test.ts)
 - 🚀 [Option](tests/option.test.ts)
 
-## ✅ Option
-
-Problema que intentamos resolver:
-
-- 🧠 Los patrones funcionales y su impacto en el código.
-- 🧠 Computación que puede fallar (menjo de la opcionalidad).
-- 💩 Programación defensiva (`Optional chaining` or `Nullish coalescing operator`).
-- 💡 NullObject pattern.
-- 🧠 Functional programming: `fp-ts`.
-
-Que nos aporta `Option`:
-
-- 💡 Valores inexistentes.
-- 💩 Programación defensiva (`Optional chaining` or `Nullish coalescing operator`).
-- 💡 NullObject pattern.
-- 🧠 Functional programming.
-
 # Referencias
 
 - 🎥 [Programación funcional: Próximamente en un lenguaje de programación cerca de usted](https://www.youtube.com/watch?v=y0GwxCDTJvA)

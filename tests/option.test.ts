@@ -1,74 +1,89 @@
 import { describe, expect, test } from "vitest";
 
-import { pipe } from "fp-ts/function";
+import * as F from "fp-ts/function";
 import * as O from "fp-ts/Option";
 
-import { Actor, dicaprio, marion, tom } from "../src/exchange/domain";
+import * as T from "../src/exchange/domain";
+import * as SavingsRepository from "../src/exchange/infrastructure/savings-repository";
+import * as SavingsRepositoryWithOption from "../src/exchange/infrastructure/savings-repository-with-option";
 
 describe("💡 Manejo de la opcionalidad", () => {
-  describe("🦖 Enfoque tradicional", () => {
-    function decideBestActor(actors: Actor[]): Actor | undefined {
-      if (actors.includes(dicaprio)) return dicaprio;
+  describe("Enfoque tradicional", () => {
+    /** 💩 Defensa de null necesaria */
 
-      return undefined;
+    function extractFullName(
+      accountManager: T.AccountManager | null
+    ): string | null {
+      if (accountManager === null) return null;
+
+      return accountManager.fullName;
     }
 
-    function duplicateSalary(actor: Actor | undefined): number | undefined {
-      if (typeof actor === "undefined") return undefined;
+    function toCapitalLetters(input: string | null): string | null {
+      if (input === null) return null;
 
-      return actor.salary.amount * 2;
+      return input.toLocaleUpperCase();
     }
 
-    test("Happy path siempre funciona 😅", () => {
-      const bestActor: Actor | undefined = decideBestActor([
-        marion,
-        tom,
-        dicaprio,
-      ]);
+    function toGreetingMessage(input: string | null): string | null {
+      if (input === null) return null;
 
-      const bestActorNewSalary: number | undefined = duplicateSalary(bestActor);
+      return `Hi!!! ${input}`;
+    }
 
-      expect(bestActorNewSalary).toEqual(14_000_000);
-    });
+    test("😭 Nombre transformado del account manager con defensa de null", () => {
+      const repository: T.SavingsRepository =
+        SavingsRepository.withSavingsDatabase();
 
-    test("Gestión de la ausencia de valor", () => {
-      const bestActor: Actor | undefined = decideBestActor([marion, tom]);
+      const accountManager = repository.retrieveAccountManager();
 
-      const bestActorNewSalary: number | undefined = duplicateSalary(bestActor);
+      const result = toGreetingMessage(
+        toCapitalLetters(extractFullName(accountManager))
+      );
 
-      expect(bestActorNewSalary).toBeUndefined();
+      expect(result).toEqual("Hi!!! RICARDO BORILLO");
     });
   });
 
-  describe("🚀 Manejo de la opcionalidad con `Option`", () => {
+  /**
+   * Problema que intentamos resolver:
+    - 🧠 Los patrones funcionales y su impacto en el código.
+    - 🧠 Computación que puede fallar (menjo de la opcionalidad).
+    - 💩 Programación defensiva (`Optional chaining` or `Nullish coalescing operator`).
+    - 💡 NullObject pattern.
+    - 🧠 Functional programming: `fp-ts`.
+   */
+
+  describe("Manejo de la opcionalidad con `Option`", () => {
     // ℹ️ type Option<A> = None | Some<A>
 
-    function decideBestActor(actors: Actor[]): O.Option<Actor> {
-      if (actors.includes(dicaprio)) return O.some(dicaprio);
-
-      return O.none;
+    function extractFullName(
+      accountManager: O.Option<T.AccountManager>
+    ): O.Option<string> {
+      return O.map((am: T.AccountManager) => am.fullName)(accountManager);
     }
 
-    function duplicateSalary(actor: O.Option<Actor>): O.Option<number> {
-      return O.map((actor: Actor) => actor.salary.amount * 2)(actor);
+    function toCapitalLetters(input: O.Option<string>): O.Option<string> {
+      return O.map((v: string) => v.toUpperCase())(input);
     }
 
-    test("Happy path siempre funciona 😅", () => {
-      const newSalary: O.Option<number> = pipe(
-        decideBestActor([marion, tom, dicaprio]),
-        duplicateSalary
+    function toGreetingMessage(input: O.Option<string>): O.Option<string> {
+      return O.map((v: string) => `Hi!!! ${v}`)(input);
+    }
+
+    test("😃 Nombre transformado del account manager con `Option`", () => {
+      const repository: T.SavingsRepositoryWithOption =
+        SavingsRepositoryWithOption.withSavingsDatabase();
+
+      const accountManager = repository.retrieveAccountManager();
+
+      const result = F.pipe(
+        extractFullName(accountManager),
+        toCapitalLetters,
+        toGreetingMessage
       );
 
-      expect(newSalary).toEqual(O.some(14_000_000));
-    });
-
-    test("Gestión de la ausencia de valor con `Option`", () => {
-      const newSalary: O.Option<number> = pipe(
-        decideBestActor([marion, tom]),
-        duplicateSalary
-      );
-
-      expect(newSalary).toEqual(O.none);
+      expect(result).toEqual(O.some("Hi!!! RICARDO BORILLO"));
     });
   });
 });
