@@ -6,7 +6,7 @@ import * as CurrencyAdder from "../src/exchange/application/currency-adder";
 describe("Value Objects", () => {
   test("😭 sumar dos importes: sin value objects", () => {
     /**
-     * 💩 Obsesión por las primitivas.
+     * 💩 Obsesión por las primitivas + data clumps.
      * 💩 Código que debería estar en el dominio.
      */
 
